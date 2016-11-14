@@ -1,0 +1,62 @@
+# Blender MTL File: 'Test obj.blend'
+# Material Count: 6
+
+newmtl Cánto_páginas_libro
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd D:\TRABAJO_en marcha\Mederic Ediciones\Corporatido mederic Ediciones\archivos Blender\textures\canto paginas libro.jpg
+
+newmtl Material_"eric"
+Ns 725.786913
+Ka 0.000000 0.000000 0.000000
+Kd 0.076580 0.038113 0.023279
+Ks 0.300599 0.186135 0.224085
+Ni 1.000000
+d 0.800000
+illum 2
+map_refl D:\\TRABAJO_en marcha\\Mederic Ediciones\\Corporatido mederic Ediciones\\archivos Blender\\textures\\Abstracto-003.jpg
+
+newmtl Material_"med"
+Ns 725.786913
+Ka 0.000000 0.000000 0.000000
+Kd 0.034711 0.496923 0.496923
+Ks 0.800000 0.800000 0.800000
+Ni 1.000000
+d 0.800000
+illum 2
+map_refl D:\\TRABAJO_en marcha\\Mederic Ediciones\\Corporatido mederic Ediciones\\archivos Blender\\textures\\Abstracto-003.jpg
+
+newmtl Material_Portada_libro
+Ns 160.234258
+Ka 0.000000 0.000000 0.000000
+Kd 0.076580 0.049804 0.049804
+Ks 0.200000 0.200000 0.200000
+Ni 1.000000
+d 0.800000
+illum 2
+map_refl D:\\TRABAJO_en marcha\\Mederic Ediciones\\Corporatido mederic Ediciones\\archivos Blender\\textures\\Abstracto-003.jpg
+
+newmtl pagina_01
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd D:\TRABAJO_en marcha\Mederic Ediciones\Corporatido mederic Ediciones\pagina libro 01.jpg
+
+newmtl pagina_02
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd D:\TRABAJO_en marcha\Mederic Ediciones\Corporatido mederic Ediciones\pagina libro 02.jpg

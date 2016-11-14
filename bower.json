@@ -1,0 +1,7 @@
+{
+  "name": "Threejs Test",
+  "private": "true",
+  "dependencies": {
+    "three.js": "threejs#*"
+  }
+}
