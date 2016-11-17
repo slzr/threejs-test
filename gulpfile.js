@@ -1,5 +1,5 @@
 var src        = "app/assets/";
-var dest       = "dist/";
+var dist       = "dist/";
 var components = src + "components";
 
 
@@ -9,40 +9,38 @@ var gulp         = require('gulp'),
     quills       = require('quills'),
     poststylus   = require('poststylus'),
     autoprefixer = require('autoprefixer'),
-    cssnano      = require('cssnano'),
-    csso         = require('gulp-csso'),
     notify       = require('gulp-notify'),
     plumber      = require('gulp-plumber'),
     jshint       = require('gulp-jshint'),
-    concat       = require('gulp-concat'),
     stylish      = require('jshint-stylish'),
     bower        = require('main-bower-files'),
-    filter       = require('gulp-filter'),
     concat       = require('gulp-concat'),
     uglify       = require('gulp-uglify'),
-    merge        = require('merge-stream'),
     replace      = require('gulp-replace'),
     imagemin     = require('gulp-imagemin'),  
     pngquant     = require('imagemin-pngquant'),
-    livereload   = require('gulp-livereload'),
-    argv         = require('yargs').argv,
     open         = require('gulp-open'),
     path         = require('path'),
-    debug        = require('gulp-debug')
+    debug        = require('gulp-debug'),
+    connect      = require('gulp-connect'),
+    csso         = require('gulp-csso')
     ;
+
 
 
 //  CLEAN DEV FOLDERS
 gulp.task('clean',            del.bind( null, ['dist'] ));
-gulp.task('clean:components', del.bind( null, [dest + 'components'] ));
+gulp.task('clean:components', del.bind( null, [src + 'components'] ));
 gulp.task('clean:modules',    del.bind( null, ['node_modules'] ));
 gulp.task('clean:all', ['clean', 'clean:components', 'clean:modules'], null);
 //  CLEAN DEV FOLDERS
 
 
+
+
 //  COMPILE STYL FILES
 gulp.task('stylus', function(){
-  return gulp.src(src + 'styles/main.styl')
+  return gulp.src(src + 'stylus/main.styl')
 
   .pipe( plumber({
     errorHandler: function(err){
@@ -74,11 +72,12 @@ gulp.task('stylus', function(){
     appIcon: path.join(__dirname, 'gulp-logos/stylus-logo.png')
   }))
 
-  .pipe( gulp.dest( dest + 'css' ))
-
+  .pipe( gulp.dest( src + 'css' ))
   .pipe( connect.reload() );
 });
 //  COMPILE STYL FILES
+
+
 
 
 //  LINT JS
@@ -93,25 +92,17 @@ gulp.task('lint', function(){
       appIcon: path.join( __dirname, 'gulp-logos/js-logo.png')
     }))
     .pipe( concat('main.js') )
-    .pipe( gulp.dest( dest + 'js' ));
-
+    .pipe( gulp.dest( src + 'js' ))
     .pipe( connect.reload() );
 });
 //  LINT JS
 
 
+
+
 //  PASS ALL BOWER FILES
 gulp.task("bower:css", function(){
-  return gulp.src( bower({
-    "overrides": {
-      "bootstrap": {
-        "main": [
-          "dist/css/bootstrap.css",
-        ]
-      }
-    }
-  }) )
-  .pipe( filter('**/*.css') )
+  return gulp.src( bower({ 'filter': '**/*.css'}) )
   //.pipe( debug() )
   .pipe( concat('vendor.min.css'))
   .pipe( replace('font/', 'fonts/') )
@@ -123,22 +114,12 @@ gulp.task("bower:css", function(){
     message: "<%= file.relative %> concatenado y minificado con exito!!",
     appIcon: path.join( __dirname, 'gulp-logos/css-logo.png')
   }))
-  .pipe( gulp.dest( dest + 'css'));
+  .pipe( gulp.dest( src + 'css'));
 });
 
-
 gulp.task("bower:js", function(){
-  return gulp.src( bower({
-    "overrides": {
-      "bootstrap": {
-        "main": [
-          "dist/js/bootstrap.js"
-        ]
-      }
-    }
-  }) )
-  .pipe( filter('**/*.js'))
-  .pipe( debug() )
+  return gulp.src( bower({"filter": "**/*.js" }) )
+  //.pipe( debug() )
   .pipe( concat('vendor.min.js') )
   .pipe( uglify() )
   .pipe(notify({
@@ -147,22 +128,10 @@ gulp.task("bower:js", function(){
     message: "<%= file.relative %> concatenado y minificado con exito!!",
     appIcon: path.join( __dirname, 'gulp-logos/js-logo.png')
   }))
-  .pipe( gulp.dest( dest + 'js'));
+  .pipe( gulp.dest( src + 'js'));
 });
 
-
-gulp.task('bower:all', [ 'bower:css', 'bower:js'], function() {
-});
-//  PASS JS BOWER FILES
-
-
-//  COPY FONTS
-gulp.task('fonts', function() {
-  return gulp.src( src + 'fonts/**/*' )
-  .pipe( gulp.dest( dest + 'fonts') );
-});
-
-gulp.task('fonts:bower', function(){
+gulp.task('bower:fonts', function(){
   return gulp.src( bower({
     filter: [
     '**/*.eot',
@@ -173,12 +142,14 @@ gulp.task('fonts:bower', function(){
     '**/*.otf',
     ] 
   }))
-  .pipe( gulp.dest( dest + 'fonts') );
+  .pipe( gulp.dest( src + 'fonts') );
 });
 
-gulp.task('fonts:all', [ 'fonts', 'fonts:bower'], function() {
+gulp.task('bower:all', [ 'bower:css', 'bower:js', 'bower:fonts'], function() {
 });
-//  COPY FONTS
+//  PASS ALL BOWER FILES
+
+
 
 
 //  MINIFY ALL IMAGENES
@@ -193,65 +164,76 @@ gulp.task('imagemin', function(){
       }],
       use: [pngquant()]
     }))
-    .pipe(gulp.dest(dest + 'images'));
+    .pipe(gulp.dest(src + 'images'));
 });
 //  MINIFY ALL IMAGENES
 
 
+
+
 // WATCHERs
 gulp.task('watch:stylus', ['stylus'], function(){
-  gulp.watch(src + 'styles/**/*.styl', ['stylus']);
+  gulp.watch(src + 'stylus/**/*.styl', ['stylus']);
 });
 
 gulp.task('watch:js', ['lint'], function(){
   gulp.watch(src + 'scripts/**/*.js', ['lint']);
 });
 
-gulp.task('watch:fonts', ['fonts'], function(){
-  gulp.watch( src + 'fonts/**/*' , ['fonts']);
-});
-
 gulp.task('watch:images', ['imagemin'], function(){
   gulp.watch(src + 'images/**/*' , ['imagemin']);
 });
 
-gulp.task('watch:components', ['bower:all', 'fonts:bower'], function(){
-  gulp.watch( components + '/**/*' , ['bower:all', 'fonts:bower'] );
+gulp.task('watch:components', ['bower:all'], function(){
+  gulp.watch( components + '/**/*' , ['bower:all'] );
 });
 
-gulp.task('watch:all', ['watch:stylus', 'watch:js', 'watch:fonts', 'watch:images', 'watch:components'], function(){
+gulp.task('watch:all', ['watch:stylus', 'watch:js', 'watch:images', 'watch:components'], function(){
 });
 // WATCHERs
 
 
+
 //  OPEN BROWSER & SERVER WITH LIVERELOAD
-gulp.task('serve', ['watch:all'], function(){
+gulp.task('serve', ['watch:all', 'open-browser'], function(){
+  connect.server({
+    root: ['app'],
+    port: 1234,
+    livereload: true,
+  });
 
-  livereload.listen(1234);
-  // livereload.listen({ port: 1234, basePath: 'dist' });
-  gulp.watch('app/**/*', ['watch:all']);
-
-
-
-//  var src = [
-//    'app/**/*',
-//  ];
-//
-//  gulp.watch(src)
-//  .on('change', function (event) {
-//    console.log(event.path)
-//    livereload.changed(event.path);
-//  });
-//  livereload.listen();
-//
-//  var url = argv.open || argv.o;
-//  if (typeof url !== "undefined") {
-//    gulp.src( __filename )
-//    .pipe( open({
-//      app: 'chrome',
-//      uri: argv.open || argv.o
-//    }));
-//  }
+  gulp.watch('app/**/*', function(){
+    gulp.src('app/**/*')
+    .pipe( connect.reload() );
+  });
 });
 
+gulp.task('serve:dist', ['open-browser:dist'], function(){
+    connect.server({
+    root: ['dist'],
+    port: 4321,
+    livereload: true,
+  });
+});
 //  OPEN BROWSER & SERVER WITH LIVERELOAD
+
+
+
+// UTILS
+gulp.task('open-browser', function(){
+  gulp.src( __filename )
+  .pipe( open({
+    // app: 'chrome',
+    uri: 'http://localhost:1234'
+  }));
+});
+gulp.task('open-browser:dist', function(){
+  gulp.src( __filename )
+  .pipe( open({
+    // app: 'chrome',
+    uri: 'http://localhost:4321'
+  }));
+});
+// UTILS
+
+gulp.task('default', ['serve']);

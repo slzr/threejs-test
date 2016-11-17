@@ -1,0 +1,36 @@
+html,
+body {
+  background-color: #f0f0f0;
+  color: #333;
+  font-size: 16px;
+  height: 100%;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+}
+.text-center {
+  text-align: center;
+}
+.vertical-align {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.render-container {
+  background-color: #fff;
+  width: 640px;
+  height: 480px;
+  margin: 0 auto;
+  border: 5px solid #fff;
+  display: block;
+  box-shadow: 0 0 6px 2px rgba(0,0,0,0.15);
+  border-radius: 5px;
+}
