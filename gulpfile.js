@@ -118,8 +118,21 @@ gulp.task("bower:css", function(){
 });
 
 gulp.task("bower:js", function(){
-  return gulp.src( bower({"filter": "**/*.js" }) )
-  //.pipe( debug() )
+  return gulp.src( bower({
+    "filter": "**/*.js",
+    "overrides": {
+      "three.js": {
+        "main": [
+          "build/three.js",
+          "examples/js/Detector.js",
+          "examples/js/controls/OrbitControls.js",
+        ] 
+      }
+
+    }
+
+  }) )
+  .pipe( debug() )
   .pipe( concat('vendor.min.js') )
   .pipe( uglify() )
   .pipe(notify({
