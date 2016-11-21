@@ -1,3 +1,29 @@
+$red    = #F44336
+$blue   = #2196F3
+$green  = #4CAF50
+$amber  = #FFC107
+$orange = #FF9800
+$brow   = #795548
+
+
+.bg-red, .selected.bg-red 
+  bg $red
+.bg-blue, .selected.bg-blue 
+  bg $blue
+.bg-green, .selected.bg-green 
+  bg $green
+.bg-amber, .selected.bg-amber 
+  bg $amber
+.bg-orange, .selected.bg-orange 
+  bg $orange
+.bg-brow, .selected.bg-brow 
+  bg $brow
+  
+.selected
+  color white
+  font-weight bold
+
+
 html, body
   bg          #F0
   color       #333
@@ -17,7 +43,7 @@ html, body
   display         flex
   align-items     center
   justify-content center
-
+  
 #render-container
   bg            #F0
   size          1024px 768px
@@ -26,5 +52,12 @@ html, body
   display       block
   box-shadow    0 0 6px 2px rgba(black, .15)
   border-radius 5px
-  canvas
-    size 100%
+    
+.select-model
+  bg            none
+  border        none
+  cursor        pointer
+  padding       5px 15px
+  font-size     16px
+  font-weight   bold
+  border-radius 3px

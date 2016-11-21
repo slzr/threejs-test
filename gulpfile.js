@@ -126,7 +126,7 @@ gulp.task("bower:js", function(){
           "build/three.js",
           "examples/js/Detector.js",
           "examples/js/controls/OrbitControls.js",
-        ] 
+          "examples/js/loaders/OBJLoader.js",        ] 
       }
 
     }
