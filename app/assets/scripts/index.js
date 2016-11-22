@@ -5,7 +5,8 @@ $( document ).ready(function() {
   var viewer = $('#render-container');
   var scene, camera, renderer, controls, stats;
   var ExportedModel;
-  var raycast, mouse;
+  var raycaster = new THREE.Raycaster();
+  var mouse = new THREE.Vector2();
 
   init(); // INICIALIZACION
   loop();  // RENDER LOOP
@@ -22,7 +23,7 @@ function init() {
   VIEW_ANGLE       = 45, 
   ASPECT           = VIEWER_WIDTH / VIEWER_HEIGHT,
   NEAR             = 0.1,
-  FAR              = 1000;
+  FAR              = 10000;
   
   // ESCENA
   scene  = new THREE.Scene();
@@ -115,7 +116,7 @@ function init() {
     // resource URL
     // 'assets/models/Test_logo Mederic.obj',
     // 'assets/models/musc.obj',
-    'assets/models/test.obj',
+    'assets/models/prueba.obj',
     // 'assets/models/test2.obj',
     // Function when resource is loaded
     function ( object ) {
@@ -127,7 +128,6 @@ function init() {
       object.children.map(function(model){
         ExportedModel.models[model.name] = model;
       });
-      console.log(ExportedModel);
     }
   );
 
@@ -152,9 +152,23 @@ function init() {
 
 function loop() 
 {
+  raycaster.setFromCamera( mouse, camera ); 
+
+  var intersects = raycaster.intersectObjects( scene.children );
+  for ( var i = 0; i < intersects.length; i++ ) {
+    intersects[ i ].object.material.color.set( 0xff0000 );
+  }
+  
   requestAnimationFrame( loop );
   renderer.render( scene, camera );
 }
+
+viewer.mousemove(function(e) {
+  // mouse.x = e.clientX;
+  // mouse.y = e.clientY;
+  mouse.x =   ( e.clientX / window.innerWidth ) * 2 - 1;
+  mouse.y = - ( e.clientY / window.innerHeight ) * 2 + 1;   
+});
 
 
 

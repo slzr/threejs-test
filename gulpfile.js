@@ -119,18 +119,7 @@ gulp.task("bower:css", function(){
 
 gulp.task("bower:js", function(){
   return gulp.src( bower({
-    "filter": "**/*.js",
-    "overrides": {
-      "three.js": {
-        "main": [
-          "build/three.js",
-          "examples/js/Detector.js",
-          "examples/js/controls/OrbitControls.js",
-          "examples/js/loaders/OBJLoader.js",        ] 
-      }
-
-    }
-
+    "filter": "**/*.js"
   }) )
   .pipe( debug() )
   .pipe( concat('vendor.min.js') )
