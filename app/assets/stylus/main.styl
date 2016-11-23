@@ -1,3 +1,51 @@
+*, *:before, *:after
+  box-sizing border-box
+
+html, body
+  bg          #F0
+  size        100%
+  color       #333
+  margin      0
+  position    relative
+  font-size   16px
+  font-family "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif 
+  font-weight 300
+  
+  
+.text-center
+  text-align center
+
+.vertical-align
+  display         flex
+  align-items     center
+  justify-content center
+  
+#render-container
+  bg            #F0
+  size          75% 100%
+  margin        0 auto
+  margin-left 25%
+  // border        5px solid white
+  display       block
+  // box-shadow    0 0 6px 2px rgba(black, .15)
+  // border-radius 5px
+  canvas
+    size    100%
+    display block
+    
+.side-menu-left
+  bg         #f0f0f0
+  width      25%
+  height     100%
+  padding    10px 5px 5px
+  absolute   top left
+  overflow   auto
+  //         max-width  300px
+  box-shadow 3px 0 6px rgba(black, .25)
+  h1
+    color rgba(black, .5)
+
+
 $red    = #F44336
 $blue   = #2196F3
 $green  = #4CAF50
@@ -5,7 +53,19 @@ $amber  = #FFC107
 $orange = #FF9800
 $brow   = #795548
 
-
+.color-red
+  color $red
+.color-blue
+  color $blue
+.color-green
+  color $green
+.color-amber
+  color $amber
+.color-orange
+  color $orange
+.color-brow
+  color $brow
+  
 .bg-red, .selected.bg-red 
   bg $red
 .bg-blue, .selected.bg-blue 
@@ -18,46 +78,16 @@ $brow   = #795548
   bg $orange
 .bg-brow, .selected.bg-brow 
   bg $brow
-  
-.selected
-  color white
-  font-weight bold
 
-
-html, body
-  bg          #F0
-  color       #333
-  margin      0 auto
-  height      100%
-  font-size   16px
-  font-family "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif 
-  font-weight 300
-  
-*, *:before, *:after
-  box-sizing border-box
-  
-.text-center
-  text-align center
-
-.vertical-align
-  display         flex
-  align-items     center
-  justify-content center
-  
-#render-container
-  bg            #F0
-  size          1024px 768px
-  margin        0 auto
-  border        5px solid white
-  display       block
-  box-shadow    0 0 6px 2px rgba(black, .15)
-  border-radius 5px
-    
 .select-model
   bg            none
   border        none
   cursor        pointer
   padding       5px 15px
+  outline       none
   font-size     16px
   font-weight   bold
   border-radius 3px
+.selected
+  color       white
+  font-weight bold
