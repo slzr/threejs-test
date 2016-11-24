@@ -149,8 +149,9 @@ function loop()
   });
 
 
+  raycaster.setFromCamera( mouseVector, camera ); 
+  intersects = raycaster.intersectObjects(scene.children, true);
   if (intersects.length > 0){
-    console.log(intersects[0]);
     intersects[0].object.material.emissive.setHex(0xff0000)
   }
   
@@ -159,19 +160,16 @@ function loop()
 }
 
 
-container.click(function(e) {
+container.mousedown(function(e) {
+  console.log("down");
+  mouseVector.x = -1;
+  mouseVector.y = -1;
+});
+
+container.mouseup(function(e) {
+  console.log("up");
   mouseVector.x =   ( e.offsetX / containerWidth) * 2 - 1;
   mouseVector.y = - ( e.offsetY / containerHeight) * 2 + 1;   
-
-  raycaster.setFromCamera( mouseVector, camera ); 
-  intersects = raycaster.intersectObjects(scene.children, true);
-  // raycaster.setFromCamera( mouseVector, camera ); 
-  // var intersects = raycaster.intersectObjects(scene.children, true);
-  // console.log(intersects);
-  // if (intersects.length > 0){
-  //   // console.log(intersects[0]);
-  //   intersects[0].object.material.emissive.setHex(0xff0000)
-  // }
 });
 
 
