@@ -51,23 +51,23 @@ function init() {
 
 
   //  LUZ
-  var light = new THREE.PointLight( 0xffffff, 0.25 );
-  light.position.set( 2, 5, 1 );
-  scene.add( light );
+  // var light = new THREE.PointLight( 0xffffff, 0.25 );
+  // light.position.set( 2, 5, 1 );
+  // scene.add( light );
 
-  light = new THREE.PointLight( 0xffffff, 0.25 );
-  light.position.set( -2, 5, 1 );
-  scene.add( light );
+  // light = new THREE.PointLight( 0xffffff, 0.25 );
+  // light.position.set( -2, 5, 1 );
+  // scene.add( light );
 
-  scene.add( new THREE.AmbientLight( 0x050505 ) );
+  // scene.add( new THREE.AmbientLight( 0x050505 ) );
 
-  light = new THREE.DirectionalLight( 0xefefff, 0.75 );
-  light.position.set( 1, 1, 1 ).normalize();
-  scene.add( light );
+  // light = new THREE.DirectionalLight( 0xefefff, 0.75 );
+  // light.position.set( 1, 1, 1 ).normalize();
+  // scene.add( light );
 
-  light = new THREE.DirectionalLight( 0xffefef, 0.75 );
-  light.position.set( -1, -1, -1 ).normalize();
-  scene.add( light );
+  // light = new THREE.DirectionalLight( 0xffefef, 0.75 );
+  // light.position.set( -1, -1, -1 ).normalize();
+  // scene.add( light );
 
 
   //  CONTROLES
@@ -86,39 +86,49 @@ function init() {
   });
 
 
-  ///////////////
-  // GEOMETRY //
-  //////////////
-
-  // // add a torus  
-  // var tgeometry = new THREE.TorusKnotGeometry(0.5-0.12, 0.12, 120, 120);
-  // // var tmaterial = new THREE.MeshNormalMaterial(); 
-  // var tmaterial = new THREE.MeshPhongMaterial() 
-  // var tmesh     = new THREE.Mesh( tgeometry, tmaterial );
-  // scene.add( tmesh );
-
-
   // LOAD OBJ
-  var loader = new THREE.OBJLoader();
-  loader.load(
-    'assets/models/prueba.obj',
-    function ( object ) {
-      scene.add( object );
-      object.scale.set(0.005, 0.005, 0.005);
+  // var loader = new THREE.OBJLoader();
+  // loader.load(
+  //   'assets/models/prueba.obj',
+  //   function ( object ) {
+  //     scene.add( object );
+  //     // object.scale.set(0.005, 0.005, 0.005);
 
-      ExportedModel = object;
-      ExportedModel.models = {};
-      object.children.map(function(model){
-        ExportedModel.models[model.name] = model;
-        ExportedModel.models[model.name].materialOriginal = model.material;
-        ExportedModel.models[model.name].selected = false;
-      });
-      console.log(ExportedModel);
+  //     ExportedModel = object;
+  //     ExportedModel.models = {};
+  //     object.children.map(function(model){
+  //       ExportedModel.models[model.name] = model;
+  //       ExportedModel.models[model.name].materialOriginal = model.material;
+  //       ExportedModel.models[model.name].selected = false;
+  //     });
+  //     // console.log(ExportedModel);
 
-      // CALL RENDER LOOP
-      loop();
-    }
-  );
+  //     // $.each(ExportedModel.models, function(index, model){
+  //     //   console.log(model);
+  //     // });
+  //     // Object.keys(ExportedModel.models).map(function(index, key){
+  //       // console.log(ExportedModel.models[key]);
+  //     // });
+
+  //     // CALL RENDER LOOP
+  //     console.log(scene);
+  //     console.log(ExportedModel);
+  //     loop();
+  //   }
+  // );
+
+  // LOAD COLLADA MODEL
+  var loader = new THREE.ColladaLoader();
+  loader.load('assets/models/mederic_logo.dae', function(collada) {
+    collada.scene.scale.set(1, 1, 1);
+    scene.add(collada.scene);
+    ExportedModel = collada.scene.children;
+
+    console.log(scene);
+    console.log(ExportedModel);
+    loop();
+  });
+
 }
 /////////////////////
 // INICIALIZACION //
@@ -126,25 +136,42 @@ function init() {
 
 
 
+
 ///////////
 // LOOP //
 /////////
+var intersects;
 function loop() 
 {
-  raycaster.setFromCamera( mouseVector, camera ); 
-  var intersects = raycaster.intersectObjects(ExportedModel.children);
+  $.each(ExportedModel, function(index, model){
+    if (model.children[0].type == "Mesh")
+      model.children[0].material.emissive.set(0x000000);
+  });
+
+
   if (intersects.length > 0){
     console.log(intersects[0]);
-    intersects[0].object.material.color.setHex(0xff0000)
+    intersects[0].object.material.emissive.setHex(0xff0000)
   }
   
   requestAnimationFrame( loop );
   renderer.render( scene, camera );
 }
 
+
 container.click(function(e) {
   mouseVector.x =   ( e.offsetX / containerWidth) * 2 - 1;
   mouseVector.y = - ( e.offsetY / containerHeight) * 2 + 1;   
+
+  raycaster.setFromCamera( mouseVector, camera ); 
+  intersects = raycaster.intersectObjects(scene.children, true);
+  // raycaster.setFromCamera( mouseVector, camera ); 
+  // var intersects = raycaster.intersectObjects(scene.children, true);
+  // console.log(intersects);
+  // if (intersects.length > 0){
+  //   // console.log(intersects[0]);
+  //   intersects[0].object.material.emissive.setHex(0xff0000)
+  // }
 });
 
 
