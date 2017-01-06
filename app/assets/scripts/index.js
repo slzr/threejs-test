@@ -1,6 +1,33 @@
 'use strict';
 $( document ).ready(function() {
 
+  var bar = new ProgressBar.Circle('#state-print', {
+    color: '#aaa',
+    strokeWidth: 4,
+    trailWidth: 2,
+    easing: 'easeInOut',
+    duration: 250,
+    text: {
+      autoStyleContainer: false
+    },
+    from: { color: '#ffeb3b', width: 2 },
+    to: { color: '#4caf50', width: 4 },
+    step: function(state, circle) {
+      circle.path.setAttribute('stroke', state.color);
+      circle.path.setAttribute('stroke-width', state.width);
+
+      var value = Math.round(circle.value() * 100);
+      if (value === 0) {
+        circle.setText('');
+      } else {
+        circle.setText(value+"%");
+      }
+
+    }
+  });
+    bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
+    bar.text.style.fontSize = '2rem';
+
   // STANDAR GLOBAL VARIABLES
   var container   = $('#render-container'),
   containerWidth  = container.innerWidth(),
@@ -9,9 +36,10 @@ $( document ).ready(function() {
   var ExportedModel;
   var raycaster   = new THREE.Raycaster();
   var mouseVector = new THREE.Vector2();
+  var ModelLoaded;
 
   init(); // INICIALIZACION
-  // loop();  // RENDER LOOP
+  loop();  // RENDER LOOP
 
 
 /////////////////////
@@ -118,6 +146,7 @@ function init() {
   // );
 
   // LOAD COLLADA MODEL
+  ModelLoaded = false;
   var loader = new THREE.ColladaLoader();
   loader.load('assets/models/mederic_logo.dae', function(collada) {
     collada.scene.scale.set(1, 1, 1);
@@ -126,7 +155,14 @@ function init() {
 
     console.log(scene);
     console.log(ExportedModel);
-    loop();
+    ModelLoaded = true;
+
+    bar.destroy();
+    // loop();
+  }, function(state){
+    // console.log(state);
+    var original = state.loaded/state.total;
+    bar.animate(Math.round(original*100)/100);  // Number from 0.0 to 1.0
   });
 
 }
@@ -143,16 +179,18 @@ function init() {
 var intersects;
 function loop() 
 {
-  $.each(ExportedModel, function(index, model){
-    if (model.children[0].type == "Mesh")
-      model.children[0].material.emissive.set(0x000000);
-  });
-
-
-  raycaster.setFromCamera( mouseVector, camera ); 
-  intersects = raycaster.intersectObjects(scene.children, true);
-  if (intersects.length > 0){
-    intersects[0].object.material.emissive.setHex(0xff0000)
+  if ( ModelLoaded ){
+    $.each(ExportedModel, function(index, model){
+      if (model.children[0].type == "Mesh")
+        model.children[0].material.emissive.set(0x000000);
+    });
+  
+  
+    raycaster.setFromCamera( mouseVector, camera ); 
+    intersects = raycaster.intersectObjects(scene.children, true);
+    if (intersects.length > 0){
+      intersects[0].object.material.emissive.setHex(0xff0000)
+    }
   }
   
   requestAnimationFrame( loop );

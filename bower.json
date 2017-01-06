@@ -5,11 +5,8 @@
     "jquery": "^3.1.1",
     "three": "https://raw.githubusercontent.com/mrdoob/three.js/master/build/three.js",
     "OrbitControls": "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/controls/OrbitControls.js",
-    "OBJLoader": "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/loaders/OBJLoader.js",
-    "CTMLoader": "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/loaders/ctm/CTMLoader.js",
-    "ctm": "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/loaders/ctm/ctm.js",
-    "lzma": "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/loaders/ctm/lzma.js",
     "Detector": "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/Detector.js",
-    "ColladaLoader": "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/js/loaders/ColladaLoader.js"
+    "ColladaLoader": "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/js/loaders/ColladaLoader.js",
+    "progressbar.js": "^1.0.1"
   }
 }
